@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "purchases",
+  "info": {
+    "singularName": "purchase",
+    "pluralName": "purchases",
+    "displayName": "purchase",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "users_permissions_users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "purchases"
+    },
+    "games": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::game.game",
+      "inversedBy": "purchases"
+    },
+    "purchaseDate": {
+      "type": "datetime"
+    },
+    "links": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::link.link",
+      "mappedBy": "purchases"
+    }
+  }
+}

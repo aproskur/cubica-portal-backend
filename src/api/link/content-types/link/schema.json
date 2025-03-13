@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "links",
+  "info": {
+    "singularName": "link",
+    "pluralName": "links",
+    "displayName": "Link",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "url": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "game": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::game.game"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "день",
+        "разовая",
+        "месяц"
+      ]
+    },
+    "purchases": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::purchase.purchase",
+      "inversedBy": "links"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "kind": "collectionType",
+  "collectionName": "games",
+  "info": {
+    "singularName": "game",
+    "pluralName": "games",
+    "displayName": "Game",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "required": true,
+      "targetField": "title"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "pricePerLaunch": {
+      "type": "decimal"
+    },
+    "pricePerMonth": {
+      "type": "decimal"
+    },
+    "description": {
+      "type": "text"
+    },
+    "rating": {
+      "type": "decimal"
+    },
+    "reviews": {
+      "type": "integer"
+    },
+    "genre": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "purchases": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::purchase.purchase",
+      "mappedBy": "games"
+    },
+    "favourites": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::favourite.favourite",
+      "mappedBy": "games"
+    }
+  }
+}
