@@ -1,5 +1,4 @@
 "use strict";
-
 module.exports = {
     routes: [
         {
@@ -9,7 +8,11 @@ module.exports = {
             config: {
                 auth: false,
                 policies: [],
+                middlewares: [],
             },
         },
     ],
 };
+
+
+
