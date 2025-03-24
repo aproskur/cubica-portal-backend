@@ -80,6 +80,12 @@
       "relation": "manyToMany",
       "target": "api::favourite.favourite",
       "mappedBy": "games"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "game"
     }
   }
 }

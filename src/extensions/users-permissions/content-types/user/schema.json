@@ -76,6 +76,12 @@
       "relation": "manyToMany",
       "target": "api::favourite.favourite",
       "mappedBy": "users_permissions_users"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "users_permissions_user"
     }
   }
 }
