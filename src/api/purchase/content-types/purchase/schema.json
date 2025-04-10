@@ -11,15 +11,15 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "users_permissions_users": {
+    "users_permissions_user": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "purchases"
     },
-    "games": {
+    "game": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::game.game",
       "inversedBy": "purchases"
     },
@@ -31,6 +31,26 @@
       "relation": "manyToMany",
       "target": "api::link.link",
       "mappedBy": "purchases"
+    },
+    "package_type": {
+      "type": "enumeration",
+      "enum": [
+        "day",
+        "month",
+        "one-time"
+      ]
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "inversedBy": "purchase"
     }
   }
 }

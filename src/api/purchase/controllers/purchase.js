@@ -34,44 +34,20 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
 
         console.log(`User Document ID: ${documentId}`);
 
-
-        /*
-        // Step 1: Fetch all purchase IDs linked to the user via purchases_users_permissions_users_lnk
-        const userPurchasesLinks = await strapi.db.connection("purchases_users_permissions_users_lnk")
-            .select("purchase_id")
-            .where("user_id", user.id);
-
-        console.log("User Purchases Links:", userPurchasesLinks);
-
-        if (!userPurchasesLinks.length) {
-            console.log(`No purchases found for user ${documentId}`);
-            return ctx.send({ purchases: [] });
-        }
-
-        // Extract purchase IDs
-        const purchaseIds = userPurchasesLinks.map(link => link.purchase_id);
-        console.log("Extracted Purchase IDs:", purchaseIds); */
-
-
-        /*
-        // Convert purchaseIds to a proper array for filtering
         const purchases = await strapi.db.query("api::purchase.purchase").findMany({
-            where: { id: { $in: purchaseIds } }, // Ensure filtering uses $in for multiple IDs
+            where: {
+                users_permissions_user: user.id
+            },
+            select: ["documentId", "purchaseDate", "package_type", "start_date", "end_date"],
             populate: {
-                games: true, // Correct way to populate related entries
+                game: true,
                 links: true
             }
         });
-*/
-        const purchases = await strapi.db.query("api::purchase.purchase").findMany({
-            where: {
-                users_permissions_users: { documentId: fullUser.documentId } // Correct filtering
-            },
-            populate: {
-                games: true, // Include related games
-                links: true  // Include links (empty if not created)
-            }
-        });
+
+
+
+
         return ctx.send({ purchases });
     },
 
@@ -94,7 +70,7 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
         // Query the purchase using documentId through strapi.documents()
         const order = await strapi.documents("api::order.order").findOne({
             documentId,  // Use the documentId to query the order
-            fields: ["order_status"], // Any fields to retrieve
+            fields: ["order_status", "package_type", "start_date", "end_date"], // Fields to retrieve
             populate: ["users_permissions_user", "game"]
         });
 
@@ -118,26 +94,42 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
 
 
         // return ctx.send({ message: "Order exists and belongs to a user.", order });
-        console.log("🛠 Full Order Data:", JSON.stringify(order, null, 2));
+        console.log("Full Order Data:", JSON.stringify(order, null, 2));
 
-        const userIds = order.users_permissions_user ? [{ id: order.users_permissions_user.id }] : [];
 
-        // ✅ Ensure Games Are Passed as an Array (Many-to-Many)
-        const gameIds = order.game ? [{ id: order.game.id }] : [];
+
+        const userId = order.users_permissions_user?.id;
+        const gameId = order.game?.id;
 
 
         // Create a purchase entry. FIX! IT ADDS EMTY ENRIES into PURCHASES
-        // **✅ Create a New Purchase Entry**
-        // ✅ CREATE A NEW PURCHASE RECORD WITH CORRECT RELATIONS
+        // CREATE A NEW PURCHASE RECORD WITH CORRECT RELATIONS
         const newPurchase = await strapi.service("api::purchase.purchase").create({
             data: {
                 documentId,
                 purchaseDate: new Date(),
-                users_permissions_users: userIds,  // many-to-many needs an array
-                games: gameIds,  // many-to-many needs an array
-                order: { id: order.id }  //Must use id
+                users_permissions_user: userId,  // change from many to many to one to many
+                game: gameId,  // change from many to many to one to many
+                order: order.id, //Must use id { id: order.id 
+                package_type: order.package_type,
+                start_date: order.start_date,
+                end_date: order.end_date
+
+
             }
         });
+
+        // Update order status to PAID if purchase is successfully created
+
+        await strapi.db.query("api::order.order").update({
+            where: { id: order.id },
+            data: {
+                order_status: "paid"
+            }
+        });
+
+        console.log(`Order ${order.documentId} status updated to paid`);
+
 
         console.log("Purchase successfully created:", newPurchase);
 

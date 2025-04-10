@@ -4,7 +4,8 @@
   "info": {
     "singularName": "order",
     "pluralName": "orders",
-    "displayName": "Order"
+    "displayName": "Order",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -43,7 +44,7 @@
       "type": "enumeration",
       "enum": [
         "pending",
-        "payed",
+        "paid",
         "cancelled"
       ]
     },
@@ -52,6 +53,18 @@
     },
     "order_updated_at": {
       "type": "datetime"
+    },
+    "purchase": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::purchase.purchase",
+      "mappedBy": "order"
+    },
+    "payment_events": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment-event.payment-event",
+      "mappedBy": "order"
     }
   }
 }
