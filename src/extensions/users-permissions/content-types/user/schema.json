@@ -82,6 +82,12 @@
       "relation": "oneToMany",
       "target": "api::purchase.purchase",
       "mappedBy": "users_permissions_user"
+    },
+    "games": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::game.game",
+      "mappedBy": "developed_by"
     }
   }
 }

@@ -114,6 +114,12 @@
     },
     "reviews_tmp": {
       "type": "text"
+    },
+    "developed_by": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "games"
     }
   }
 }

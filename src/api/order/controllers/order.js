@@ -198,6 +198,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         return ctx.send({ url: robokassaUrl });
     },
 
+
     async handlePaymentResult(ctx) {
         console.log("WEBHOOK HIT");
         console.log("Headers:", ctx.request.headers);
@@ -233,9 +234,9 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 },
             });
 
-            strapi.log.info("✅ payment_event created:", createdEvent);
+            strapi.log.info("payment_event created:", createdEvent);
         } catch (err) {
-            strapi.log.error("❌ Error creating payment_event:", err);
+            strapi.log.error("Error creating payment_event:", err);
         }
 
         // Only proceed if signature is valid
