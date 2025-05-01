@@ -43,7 +43,7 @@
     "rating": {
       "type": "decimal"
     },
-    "reviews": {
+    "total_played": {
       "type": "integer"
     },
     "genre": {
@@ -120,6 +120,14 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "games"
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "game_published_at": {
+      "type": "datetime"
     }
   }
 }
