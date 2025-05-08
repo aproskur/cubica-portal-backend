@@ -5,7 +5,22 @@ const { createCoreController } = require('@strapi/strapi').factories;
 module.exports = createCoreController('api::game.game', ({ strapi }) => ({
     async updateGameFields(ctx) {
         const { documentId } = ctx.params;
-        const { pricePerLaunch, pricePerMonth, title, is_published, price_per_day, game_plot } = ctx.request.body;
+        const { pricePerLaunch, 
+                pricePerMonth, 
+                title, 
+                is_published, 
+                price_per_day, 
+                game_plot,
+                game_purpose,
+                description,
+                about_author,
+                game_support,
+                genre,
+                format,
+                duration,
+                author,
+                competencies
+              } = ctx.request.body;
 
         const user = ctx.state.user;
         console.log("Authenticated user:", ctx.state.user);
@@ -59,11 +74,51 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
         ) {
             updatedFields.game_plot = game_plot;
         }
+        if (
+            Array.isArray(game_purpose) &&
+            game_purpose.every(
+                   block =>
+                   typeof block === 'object' &&
+                   Array.isArray(block.children)
+                )
+              ) {
+                updatedFields.game_purpose = game_purpose;
+          }
+          if (typeof description === 'string') {
+            updatedFields.description = description.trim();
+          }
+      
+          if (typeof about_author === 'string') {
+            updatedFields.about_author = about_author.trim();
+          }
+      
+          if (typeof game_support === 'string') {
+            updatedFields.game_support = game_support.trim();
+          }
+          if (typeof genre === 'string') {
+            updatedFields.genre = genre.trim();
+          }
+      
+          if (typeof format === 'string') {
+            updatedFields.format = format.trim();
+          }
+      
+          if (typeof duration === 'string') {
+            updatedFields.duration = duration.trim();
+          }
+          if (typeof author === 'string') {
+            updatedFields.author = author.trim();
+          }
 
-
-
-
-
+          if (Array.isArray(competencies)) {
+            const matchedCompetencies = await strapi.db.query("api::competency.competency").findMany({
+              where: { documentId: { $in: competencies } },
+              select: ["id"],
+            });
+        
+            updatedFields.competencies = matchedCompetencies.map((c) => c.id); // use internal numeric IDs
+          }
+        
 
         const updatedGame = await strapi.db.query('api::game.game').update({
             where: { id: game.id },
@@ -88,8 +143,8 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
                 game_support: true,
                 total_played: true, // or reviews_tmp
                 about_author: true,
-                reviews_tmp: true
-                // ...anything else show on the game page
+                reviews_tmp: true,
+                competenies: true
             }
         });
 
