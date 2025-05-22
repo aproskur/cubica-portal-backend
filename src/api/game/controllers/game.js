@@ -15,7 +15,6 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
                 description,
                 about_author,
                 game_support,
-                genre,
                 format,
                 duration,
                 author,
@@ -95,9 +94,6 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
           if (typeof game_support === 'string') {
             updatedFields.game_support = game_support.trim();
           }
-          if (typeof genre === 'string') {
-            updatedFields.genre = genre.trim();
-          }
       
           if (typeof format === 'string') {
             updatedFields.format = format.trim();
@@ -123,9 +119,12 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
         const updatedGame = await strapi.db.query('api::game.game').update({
             where: { id: game.id },
             data: updatedFields,
+            populate: { competencies: true },
         });
 
+        console.log("Controller. Updated game", updatedGame)
         return ctx.send({ data: updatedGame });
+
     },
 
     async findOneBySlug(ctx) {
@@ -144,7 +143,10 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
                 total_played: true, // or reviews_tmp
                 about_author: true,
                 reviews_tmp: true,
-                competenies: true
+                game_published_at: true,
+                competencies: {
+                  fields: ["id", "documentId", "competency_name"]
+                }
             }
         });
 
@@ -154,6 +156,7 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
         if (!game.is_published && game.developed_by?.id !== user?.id) {
             return ctx.unauthorized("You are not allowed to view this game");
         }
+        console.log("Controller FetchBySlug", game)
 
         return ctx.send({ data: game });
     }
