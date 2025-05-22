@@ -22,8 +22,6 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
               } = ctx.request.body;
 
         const user = ctx.state.user;
-        console.log("Authenticated user:", ctx.state.user);
-        console.log("REQ BODY:", ctx.request.body);
 
         if (!user) {
             return ctx.unauthorized("Authentication required");
@@ -122,7 +120,6 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
             populate: { competencies: true },
         });
 
-        console.log("Controller. Updated game", updatedGame)
         return ctx.send({ data: updatedGame });
 
     },
@@ -156,7 +153,6 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
         if (!game.is_published && game.developed_by?.id !== user?.id) {
             return ctx.unauthorized("You are not allowed to view this game");
         }
-        console.log("Controller FetchBySlug", game)
 
         return ctx.send({ data: game });
     }

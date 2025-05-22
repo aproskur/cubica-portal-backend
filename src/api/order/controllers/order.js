@@ -106,25 +106,6 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         return ctx.send({ message: `Order status updated to ${status}.` });
     },
 
-    /*
-    async generatePaymentLink(ctx) {
-
-        
-        //console.log("I am generationg link to ROBOKASSA")
-        //return ctx.send({ message: "OK, route works!" }); 
-
-        const merchantLogin = process.env.ROBO_MERCHANT_LOGIN;
-        const password1 = process.env.ROBO_PASSWORD1;
-        const successUrl = process.env.ROBO_PAYMENT_SUCCESS_URL;
-
-
-        return ctx.send({
-            message: "Env vars test",
-            merchantLogin,
-            password1,
-            successUrl,
-        });
-    }, */
 
     async generatePaymentLink(ctx) {
         const { documentId } = ctx.request.query;
@@ -200,10 +181,6 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
 
 
     async handlePaymentResult(ctx) {
-        console.log("WEBHOOK HIT");
-        console.log("Headers:", ctx.request.headers);
-        console.log("Body raw:", ctx.request.body);
-
         const { OutSum, InvId, SignatureValue } = ctx.request.body;
 
         const password2 = process.env.ROBO_PASSWORD2;

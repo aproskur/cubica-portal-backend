@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => ({
     async findUserPurchases(ctx) {
-        console.log("Received request to /api/purchases/my");
-        console.log("Authorization Header:", ctx.request.header.authorization);
 
         let user = ctx.state.user;
 
@@ -15,7 +13,6 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
             return ctx.forbidden("You must be logged in to view your purchases.");
         }
 
-        console.log(`Authenticated User ID: ${user.id}`);
 
 
         const fullUser = await strapi.db.query("plugin::users-permissions.user").findOne({
@@ -23,7 +20,6 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
             select: ["documentId", "id", "email"]
         });
 
-        console.log("Full User Data:", fullUser);
 
         const documentId = fullUser?.document_id || fullUser?.documentId;
 
@@ -32,7 +28,6 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
             return ctx.forbidden("User must have a valid document_id.");
         }
 
-        console.log(`User Document ID: ${documentId}`);
 
         const purchases = await strapi.db.query("api::purchase.purchase").findMany({
             where: {
@@ -53,13 +48,10 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
 
 
     async createPurchase(ctx) {
-        console.log("Received Request:", ctx.request.body);
 
         // Extract documentId from the request body
         const { documentId } = ctx.request.body.data || {};
 
-        console.log("CREATE PURCHASE body data", ctx.request.body.data);
-        console.log("CREATE PURCHASE docuemntID", documentId);
         if (!documentId) {
             console.warn("Missing documentId.");
             return ctx.badRequest("documentId is required.");
@@ -89,12 +81,9 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
             return ctx.notFound("Order not found.");
         }
 
-        console.log(`Order found: ${order.documentId}`);
-        console.log(`Order belongs to User: ${order.users_permissions_user?.id} (${order.users_permissions_user?.email})`);
 
 
         // return ctx.send({ message: "Order exists and belongs to a user.", order });
-        console.log("Full Order Data:", JSON.stringify(order, null, 2));
 
 
 
@@ -128,10 +117,6 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
             }
         });
 
-        console.log(`Order ${order.documentId} status updated to paid`);
-
-
-        console.log("Purchase successfully created:", newPurchase);
 
         return ctx.send({ message: "Purchase created successfully.", purchase: newPurchase });
 
