@@ -49,20 +49,20 @@
     "format": {
       "type": "string"
     },
-"duration": {
-  "type": "enumeration",
-  "enum": [
-    "d30_min",
-    "d1_hr",
-    "d2_hr",
-    "d3_hr",
-    "d4_hr",
-    "d5_hr",
-    "d6_hr",
-    "d8_hr"
-  ]
-},
-"author": {
+    "duration": {
+      "type": "enumeration",
+      "enum": [
+        "d30_min",
+        "d1_hr",
+        "d2_hr",
+        "d3_hr",
+        "d4_hr",
+        "d5_hr",
+        "d6_hr",
+        "d8_hr"
+      ]
+    },
+    "author": {
       "type": "string"
     },
     "images": {
@@ -104,9 +104,6 @@
     "price_per_day": {
       "type": "decimal"
     },
-    "about_author": {
-      "type": "text"
-    },
     "rating_count": {
       "type": "decimal"
     },
@@ -141,7 +138,9 @@
       "relation": "manyToMany",
       "target": "api::competency.competency",
       "mappedBy": "games"
+    },
+    "about_author": {
+      "type": "blocks"
     }
-
   }
 }

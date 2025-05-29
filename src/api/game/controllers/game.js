@@ -85,8 +85,15 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
             updatedFields.description = description.trim();
           }
       
-          if (typeof about_author === 'string') {
-            updatedFields.about_author = about_author.trim();
+         if (
+            Array.isArray(about_author) &&
+            about_author.every(
+                   block =>
+                   typeof block === 'object' &&
+                   Array.isArray(block.children)
+                )
+              ) {
+                updatedFields.about_author = about_author;
           }
       
           if (typeof game_support === 'string') {
