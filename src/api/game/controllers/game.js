@@ -112,13 +112,25 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
           }
 
           if (Array.isArray(competencies)) {
-            const matchedCompetencies = await strapi.db.query("api::competency.competency").findMany({
-              where: { documentId: { $in: competencies } },
-              select: ["id"],
-            });
-        
-            updatedFields.competencies = matchedCompetencies.map((c) => c.id); // use internal numeric IDs
+            const validDocumentIds = competencies
+              .filter((id) => typeof id === "string" && id.trim().length > 0);
+          
+            // Only update competencies if user intends to change them
+            if (competencies.length > 0 && validDocumentIds.length === 0) {
+              strapi.log.warn('Competencies payload is invalid');
+              // Do not update field at all
+            } else {
+              const matchedCompetencies = await strapi.db.query("api::competency.competency").findMany({
+                where: { documentId: { $in: validDocumentIds } },
+                select: ["id"],
+              });
+          
+              // Only assign if updating intentionally
+              updatedFields.competencies = matchedCompetencies.map((c) => c.id);
+            }
           }
+          
+          
         
 
         const updatedGame = await strapi.db.query('api::game.game').update({
