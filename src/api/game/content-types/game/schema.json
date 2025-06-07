@@ -31,10 +31,10 @@
         "audios"
       ]
     },
-    "pricePerLaunch": {
+    "price_per_launch": {
       "type": "decimal"
     },
-    "pricePerMonth": {
+    "price_per_month": {
       "type": "decimal"
     },
     "description": {

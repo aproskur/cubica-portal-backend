@@ -5,8 +5,8 @@ const { createCoreController } = require('@strapi/strapi').factories;
 module.exports = createCoreController('api::game.game', ({ strapi }) => ({
     async updateGameFields(ctx) {
         const { documentId } = ctx.params;
-        const { pricePerLaunch, 
-                pricePerMonth, 
+        const { price_per_launch, 
+                price_per_month, 
                 title, 
                 is_published, 
                 price_per_day, 
@@ -42,12 +42,12 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
 
         const updatedFields = {};
 
-        if (typeof pricePerLaunch === 'number') {
-            updatedFields.pricePerLaunch = pricePerLaunch;
+        if (typeof price_per_launch === 'number') {
+            updatedFields.price_per_launch = price_per_launch;
         }
 
-        if (typeof pricePerMonth === 'number') {
-            updatedFields.pricePerMonth = pricePerMonth;
+        if (typeof price_per_month === 'number') {
+            updatedFields.price_per_month = price_per_month;
         }
 
         if (typeof price_per_day === 'number') {
