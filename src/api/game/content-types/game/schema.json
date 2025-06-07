@@ -141,6 +141,18 @@
     },
     "about_author": {
       "type": "blocks"
+    },
+    "contacts_email": {
+      "type": "email"
+    },
+    "contacts_whatsapp": {
+      "type": "string"
+    },
+    "contacts_telegram": {
+      "type": "string"
+    },
+    "contacts_phone": {
+      "type": "string"
     }
   }
 }

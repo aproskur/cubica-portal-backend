@@ -144,36 +144,31 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
     },
 
     async findOneBySlug(ctx) {
-        const { slug } = ctx.params;
-        const user = ctx.state.user;
-
-        const game = await strapi.db.query('api::game.game').findOne({
-            where: { slug },
-            populate: {
-                image: true,
-                images: true,
-                developed_by: true,
-                game_plot: true,
-                game_purpose: true,
-                game_support: true,
-                total_played: true, // or reviews_tmp
-                about_author: true,
-                reviews_tmp: true,
-                game_published_at: true,
-                competencies: {
-                  fields: ["id", "documentId", "competency_name"]
-                }
-            }
-        });
-
-
-        if (!game) return ctx.notFound("Game not found");
-
-        if (!game.is_published && game.developed_by?.id !== user?.id) {
-            return ctx.unauthorized("You are not allowed to view this game");
-        }
-
-        return ctx.send({ data: game });
+      const { slug } = ctx.params;
+      const user = ctx.state.user;
+    
+      const game = await strapi.db.query('api::game.game').findOne({
+        where: { slug },
+        populate: {
+          image: true,
+          images: true,
+          developed_by: true,
+          game_plot: true,
+          game_purpose: true,
+          competencies: {
+            fields: ['id', 'documentId', 'competency_name'],
+          },
+        },
+      });
+    
+      if (!game) return ctx.notFound("Game not found");
+    
+      if (!game.is_published && game.developed_by?.id !== user?.id) {
+        return ctx.unauthorized("You are not allowed to view this game");
+      }
+    
+      return ctx.send({ data: game });
     }
+    
 
 }));
