@@ -157,7 +157,13 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
           game_purpose: true,
           competencies: {
             fields: ['id', 'documentId', 'competency_name'],
+            populate: true
           },
+          faqs: {
+            fields: ['id', 'documentId', 'question', 'answer'],
+            populate: true,
+          }
+          
         },
       });
     

@@ -153,6 +153,12 @@
     },
     "contacts_phone": {
       "type": "string"
+    },
+    "faqs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faq.faq",
+      "mappedBy": "game"
     }
   }
 }
