@@ -8,11 +8,12 @@ module.exports = {
             path: "/purchases",
             handler: "purchase.findUserPurchases",
         },
+   /*    
         {
             method: "POST",
             path: "/purchases",
             handler: "purchase.createPurchase",
-        },
+        }, */
     ],
 };
 

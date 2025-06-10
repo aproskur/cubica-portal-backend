@@ -246,6 +246,17 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             return ctx.badRequest("Order must have a game.");
         }
 
+        
+        const existing = await strapi.db.query("api::purchase.purchase").findOne({
+            where: { order: order.id },
+          });
+          
+          if (existing) {
+            strapi.log.info(`Purchase already exists for order ${order.id}, skipping creation.`);
+            return ctx.send(`OK${InvId}`); // Considered successful
+          }
+          
+
         try {
             strapi.log.info(`Attempting to create purchase for order: ${JSON.stringify({
                 orderId: order.id,
