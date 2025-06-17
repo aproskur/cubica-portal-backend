@@ -159,6 +159,11 @@
       "relation": "oneToMany",
       "target": "api::faq.faq",
       "mappedBy": "game"
+    },
+    "game_links": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::link.link"
     }
   }
 }

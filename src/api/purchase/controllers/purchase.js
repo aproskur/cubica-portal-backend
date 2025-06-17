@@ -46,7 +46,7 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
         return ctx.send({ purchases });
     },
 
-
+/*
     async createPurchase(ctx) {
 
         // Extract documentId from the request body
@@ -67,13 +67,13 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
         });
 
 
-        /*
+        
         // Use strapi.documents() to fetch the correct order document
-        const order = await strapi.documents("api::order.order").findOne({
-            filters: { documentId },  // Correct usage for Strapi 5
-            fields: ["order_status"],
-            populate: ["users_permissions_user"]  // Ensures user relation is fetched
-        }); */
+        //const order = await strapi.documents("api::order.order").findOne({
+         //   filters: { documentId },  // Correct usage for Strapi 5
+          //  fields: ["order_status"],
+          ///  populate: ["users_permissions_user"]  // Ensures user relation is fetched
+        //}); 
 
 
         if (!order) {
@@ -122,7 +122,7 @@ module.exports = createCoreController("api::purchase.purchase", ({ strapi }) => 
 
 
     }
-
+*/
 
 
 

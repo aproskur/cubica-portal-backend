@@ -88,6 +88,12 @@
       "relation": "oneToMany",
       "target": "api::game.game",
       "mappedBy": "developed_by"
+    },
+    "game_links": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::link.link",
+      "mappedBy": "users_permissions_user"
     }
   }
 }

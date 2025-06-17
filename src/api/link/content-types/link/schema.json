@@ -4,43 +4,52 @@
   "info": {
     "singularName": "link",
     "pluralName": "links",
-    "displayName": "Link",
+    "displayName": "game_link",
     "description": ""
   },
   "options": {
     "draftAndPublish": false
   },
   "attributes": {
-    "date": {
-      "type": "date"
-    },
     "url": {
       "type": "string"
     },
-    "startDate": {
+    "start_date": {
       "type": "date"
     },
-    "endDate": {
+    "end_date": {
       "type": "date"
-    },
-    "game": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::game.game"
     },
     "type": {
       "type": "enumeration",
       "enum": [
-        "день",
-        "разовая",
-        "месяц"
+        "one-time",
+        "day",
+        "month"
       ]
     },
-    "purchases": {
+    "purchase": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::purchase.purchase",
       "inversedBy": "links"
+    },
+    "token": {
+      "type": "uid"
+    },
+    "label": {
+      "type": "integer"
+    },
+    "game": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::game.game"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "game_links"
     }
   }
 }
