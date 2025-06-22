@@ -18,7 +18,11 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
                 format,
                 duration,
                 author,
-                competencies
+                competencies,
+                contacts_telegram,
+                contacts_whatsapp,
+                contacts_email,
+                contacts_phone
               } = ctx.request.body;
 
         const user = ctx.state.user;
@@ -110,6 +114,22 @@ module.exports = createCoreController('api::game.game', ({ strapi }) => ({
           if (typeof author === 'string') {
             updatedFields.author = author.trim();
           }
+          if (typeof contacts_telegram === 'string') {
+            updatedFields.contacts_telegram = contacts_telegram.trim();
+          }
+          
+          if (typeof contacts_whatsapp === 'string') {
+            updatedFields.contacts_whatsapp = contacts_whatsapp.trim();
+          }
+          
+          if (typeof contacts_email === 'string') {
+            updatedFields.contacts_email = contacts_email.trim();
+          }
+          
+          if (typeof contacts_phone === 'string') {
+            updatedFields.contacts_phone = contacts_phone.trim();
+          }
+          
 
           if (Array.isArray(competencies)) {
             const validDocumentIds = competencies
