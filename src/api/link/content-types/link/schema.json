@@ -50,6 +50,10 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "game_links"
+    },
+    "archived": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
