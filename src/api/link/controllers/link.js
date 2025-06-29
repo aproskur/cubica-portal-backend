@@ -51,7 +51,7 @@ module.exports = createCoreController('api::link.link', ({ strapi }) => ({
       // Only check that the link hasn't expired
       const isNotExpired = now <= endDate;
       if (!isNotExpired) {
-        return ctx.badRequest("Link has expired.");
+        return ctx.badRequest("Ссылка устарела");
       }
     
       linkStartDate = new Date(startDate);
@@ -80,7 +80,7 @@ module.exports = createCoreController('api::link.link', ({ strapi }) => ({
         const e = new Date(endDate);
         e.setHours(23, 59, 59, 999);
         if (now > e) {
-          return ctx.badRequest("Purchase period has expired.");
+          return ctx.badRequest("Срок действия покупки истёк.");
         }
       }
     
