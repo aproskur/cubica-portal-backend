@@ -38,7 +38,8 @@
       "type": "uid"
     },
     "label": {
-      "type": "integer"
+      "type": "integer",
+      "unique": true
     },
     "game": {
       "type": "relation",
@@ -51,7 +52,7 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "game_links"
     },
-    "archived": {
+    "expired": {
       "type": "boolean",
       "default": false
     }
